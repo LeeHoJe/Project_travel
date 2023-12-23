@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <style>
+        body {
+    background-color: #f0f8ff; /* 파란 바다 배경 */
+    color: #333; /* 기본 텍스트 색상 */
+}
+h1 {
+    font-family: 'Pacifico', cursive; /* 손으로 쓴 듯한 글꼴 */
+    text-align: center;
+    color: #008080; /* 청록색 헤더 텍스트 */
+}
+form {
+    background-color: rgba(255, 255, 255, 0.9); /* 투명한 백그라운드 */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px #888; /* 그림자 효과 */
+}
+button {
+    background-color: #008080; /* 청록색 버튼 배경 */
+    color: #fff; /* 흰색 텍스트 */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #005555; /* 버튼 호버 효과 */
+}
+
+    </style>
+</head>
+<body>
+    <h1>제주 및 도서지역 관광 추천시스템</h1>
+    <form id="uploadForm">
+        <div>1. VISIT_TYPE (1: 지역관광, 2: 문화재, 박물관 등, 3: 문화시설, 4: 상업지구, 5: 레저/스포츠, <br>
+            6: 테마시설, 7: 산책로, 8:지역 축제, 9: 약, 터미널, 10: 상점, 11: 카페, 12: 기타):
+            <input type="number" id="VISIT_TYPE" name="VISIT_TYPE">
+        </div>
+        <div>2. MOVING (1: 자가용, 2: 대중교통):
+            <input type="number" id="MOVING" name="MOVING">
+        </div>
+        <div>3. GENDER (1: 남자, 2: 여자):
+            <input type="number" id="GENDER" name="GENDER">
+        </div>
+        <div>4. AGE (1: 20대, 2: 30대, 3: 40대, 4:50대, 5: 60대):
+            <input type="number" id="AGE" name="AGE">
+        </div>
+        <div>5. MARR (1: 미혼, 2: 기혼, 3: 사별, 4: 이혼, 5: 기타
+            <input type="number" id="MARR" name="MARR">
+        </div>
+        <div>6. 자연_도시 (1 ~ 7 = 자연 ~ 도시):
+            <input type="number" id="자연_도시" name="자연_도시">
+        </div>
+        <div>7. 숙박_당일 (1 ~ 7 = 숙박 ~ 당일):
+            <input type="number" id="숙박_당일" name="숙박_당일">
+        </div>
+        <div>8. 비싼숙소_저렴한숙소 (1 ~ 7 = 비싼숙소 ~ 저렴한숙소):
+            <input type="number" id="비싼숙소_저렴한숙소" name="비싼숙소_저렴한숙소">
+        </div>
+        <div>8. 휴양OR휴식_체험 (1 ~ 7 = 휴양OR휴식 ~ 체험):
+            <input type="number" id="휴양OR휴식_체험" name="휴양OR휴식_체험">
+        </div>
+        <div>9. 숨은여행지_유명여행지 (1 ~ 7 = 숨은여행지 ~ 유명여행지):
+            <input type="number" id="숨은여행지_유명여행지" name="숨은여행지_유명여행지">
+        </div>
+        <div>10. 비촬영여행지_사진촬영여행지 (1 ~ 7 = 비촬영여행지 ~사진촬영여행지):
+            <input type="number" id="비촬영여행지_사진촬영여행지" name="비촬영여행지_사진촬영여행지">
+        </div>
+        <div>11. 동반자수 (1: 나홀로 여행,  2: 2인 여행(가족 외), 3: 2인 가족 여행, 4: 부모 동반 여행, <br> 5: 자녀 동반 여행, 6: 3인 이상 여행(가족 외) , 7: 3대 동반 여행(친척 포함)):
+            <input type="number" id="동반자수" name="동반자수">
+        </div>
+        <div>12. TRAVEL_MOTIVE_1 (1: 일상적인, 2: 지루함 탈피, 3: 여행 동반자 친밀감, 4: 자아 찾기,<br> 5: SNS사진, 6: 운동, 건강, 7: 새로운 경험, 8: 역사 탐방 9: 특별한 목적, 10: 기타):
+            <input type="number" id="TRAVEL_MOTIVE_1" name="TRAVEL_MOTIVE_1">
+        </div>
+        <div>13. TRAVEL_COMPANIONS_NUM (동반자 명수):
+            <input type="number" id="TRAVEL_COMPANIONS_NUM" name="TRAVEL_COMPANIONS_NUM">
+        </div>
+
+        <!-- Add more input fields for other features as needed -->
+        <button type="button" onclick="travel_Survey()">Predict</button>
+    </form><br>
+    <div id="predictionResult">
+    <h2>Prediction Result:</h2>
+    <p id="prediction">Prediction will appear here</p>
+<!--    <p id="predictionProb">Prediction Probabilities will appear here</p>-->
+</div>
+
+<script>
+    function travel_Survey() {
+        const formData = {
+            'VISIT_TYPE': $('#VISIT_TYPE').val(),
+            'MOVING': $('#MOVING').val(),
+            'GENDER': $('#GENDER').val(),
+            'AGE': $('#AGE').val(),
+            'MARR': $('#MARR').val(),
+            '자연_도시': $('#자연_도시').val(),
+            '숙박_당일': $('#숙박_당일').val(),
+            '비싼숙소_저렴한숙소': $('#비싼숙소_저렴한숙소').val(),
+            '휴양OR휴식_체험': $('#휴양OR휴식_체험').val(),
+            '숨은여행지_유명여행지': $('#숨은여행지_유명여행지').val(),
+            '비촬영여행지_사진촬영여행지': $('#비촬영여행지_사진촬영여행지').val(),
+            '동반자수': $('#동반자수').val(),
+            'TRAVEL_MOTIVE_1': $('#TRAVEL_MOTIVE_1').val(),
+            'TRAVEL_COMPANIONS_NUM': $('#TRAVEL_COMPANIONS_NUM').val(),
+        };
+
+        $.ajax({
+        type: "POST",
+        url: "/predict",
+        data: JSON.stringify(formData),
+        contentType: "application/json",
+        success: function (res) {
+            const predictionResult = res.prediction; // 예측 결과 문자열
+            const predictionProbabilities = res.probabilities[0];
+
+            $("#prediction").text("Prediction: " + predictionResult);
+
+                const probResult = "Prediction Probabilities: " + JSON.stringify(predictionProbabilities);
+                $("#predictionProb").text(probResult);
+            }
+        });
+    }
+    </script>
+</body>
+</html>

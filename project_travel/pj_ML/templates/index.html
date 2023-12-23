@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js">
+    </script>
+</head>
+<body>
+    <h1> 분류</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <div>1.VISIT_TYPE(1:지역관광,2:문화재, 박물관, 촬영지, 절 등):
+            <input value=""> </div>
+        <div>2.MOVING(1:자가용,2:대중교통):
+            <input value=""> </div>
+        <div>3.GENDER(남자,여자):
+            <input value=""> </div>
+        <div>4.AGE():
+            <input value=""> </div>
+        <div>5.VISIT_TYPE(1:지역관광,2:문화재, 박물관, 촬영지, 절 등):
+            <input value=""> </div>
+        <div>1.VISIT_TYPE(1:지역관광,2:문화재, 박물관, 촬영지, 절 등):
+            <input value=""> </div>
+        <div>1.VISIT_TYPE(1:지역관광,2:문화재, 박물관, 촬영지, 절 등):
+            <input value=""> </div>
+        <div>1.VISIT_TYPE(1:지역관광,2:문화재, 박물관, 촬영지, 절 등):
+            <input value=""> </div>
+        <div>1.VISIT_TYPE(1:지역관광,2:문화재, 박물관, 촬영지, 절 등):
+            <input value=""> </div>
+        <div>1.VISIT_TYPE(1:지역관광,2:문화재, 박물관, 촬영지, 절 등):
+            <input value=""> </div>
+        <div>1.VISIT_TYPE(1:지역관광,2:문화재, 박물관, 촬영지, 절 등):
+            <input value=""> </div>
+        <div>1.VISIT_TYPE(1:지역관광,2:문화재, 박물관, 촬영지, 절 등):
+            <input value=""> </div>
+        <div>1.VISIT_TYPE(1:지역관광,2:문화재, 박물관, 촬영지, 절 등):
+            <input value=""> </div>
+        <div>1.VISIT_TYPE(1:지역관광,2:문화재, 박물관, 촬영지, 절 등):
+            <input value=""> </div>
+
+    </form><br>
+    <img id="preview" width="224" height="224" style="display:none;">
+    <h2 id="prediction"></h2>
+    <script>
+        function previewImage(input){
+            let file=input.files[0];
+            let reader=new FileReader();
+            reader.onload=function(e){
+                $("#preview").attr("src",e.target.result).show();
+            }
+            reader.readAsDataURL(file);
+        }
+        function uploadImage(){
+        let formData=new FormData($("#uploadForm")[0]);
+        $.ajax({
+            type:"POST"
+            ,url:"/upload"
+            ,data:formData
+            ,contentType:false
+            ,processData:false
+            ,success:function(res){
+            $("prediction").text("prediction: " + res.prediction);
+            }
+        });
+    }
+    </script>
+</body>
+</html>
